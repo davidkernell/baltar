@@ -11,6 +11,3 @@ class BitcoinDecimal(decimal.Decimal):
 
     # def __name__(self):
     #     return 'BitcoinDecimal'
-
-def save_lending_stats():
-    time.sleep(10)
