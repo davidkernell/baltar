@@ -23,7 +23,6 @@ from rainmaker.utils import BitcoinDecimal
 # num_loops = (seconds_in_2day / freqency)
 
 
-@atomic
 def save_lending_stats():
     last_cycle = LendStats.objects.last()
     if not last_cycle:
