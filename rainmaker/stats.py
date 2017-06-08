@@ -29,7 +29,7 @@ def log_loan_rate():
 
 @django.db.transaction.atomic
 def save_lending_stats():
-    time.sleep(10)
+    print 'CALLED DB STATS FUNCTION'
     last_cycle = rainmaker.models.LendStats.objects.last()
     if last_cycle and last_cycle.created_at + datetime.timedelta(seconds=8) > timezone.now():
         print 'too early'
@@ -50,3 +50,5 @@ def save_lending_stats():
     rainmaker.models.LendHistory.objects.bulk_create(objects_list)
     avg_low_bid = sum(bid_asks) / len(bid_asks)
     rainmaker.models.LendStats.objects.create(avg_interest_ask=avg_low_bid)
+    print 'cycle completed', rainmaker.models.LendStats.objects.last().avg_interest_ask
+    time.sleep(10)
