@@ -30,7 +30,7 @@ def log_loan_rate():
 def save_lending_stats():
     time.sleep(10)
     last_cycle = rainmaker.models.LendStats.objects.last()
-    if last_cycle.created_at + datetime.timedelta(seconds=8) > datetime.datetime.now():
+    if last_cycle and last_cycle.created_at + datetime.timedelta(seconds=8) > datetime.datetime.now():
         print 'too early'
         return
     p = poloapi.restapi.poloniex()
