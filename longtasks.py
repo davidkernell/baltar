@@ -54,17 +54,14 @@ def save_lending_stats():
 
 class perpetualTimer():
     def __init__(self, t, hFunction):
-        self.i = 0
         self.t = t
         self.hFunction = hFunction
         self.thread = threading.Timer(self.t, self.handle_function)
 
     def handle_function(self):
         self.hFunction()
-        if not self.i:
-            self.thread = threading.Timer(self.t, self.handle_function)
-            self.thread.start()
-        self.i += 1
+        self.thread = threading.Timer(self.t, self.handle_function)
+        self.thread.start()
 
     def start(self):
         self.thread.start()
