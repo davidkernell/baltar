@@ -28,7 +28,7 @@ def save_lending_stats():
             logging.debug('No Previous LendStats entry found.')
         time_since_last = timezone.now() - last_cycle.created_at
         if time_since_last < datetime.timedelta(seconds=9):
-            logging.warning('Save fired too quickly since last save. Time since last save {}'.found(
+            logging.warning('Save fired too quickly since last save. Time since last save {}'.format(
                 time_since_last.seconds))
             return
         p = poloapi.restapi.poloniex()
