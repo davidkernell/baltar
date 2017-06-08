@@ -5,6 +5,8 @@ import time
 
 import decimal
 
+import django.db.transaction
+
 import poloapi.restapi
 import rainmaker.models
 import rainmaker.utils
@@ -22,15 +24,23 @@ def log_loan_rate():
     avg_low_bid = sum(bid_asks)/ len(bid_asks)
     return avg_low_bid
 
+
+@django.db.transaction.atomic
 def save_lending_stats():
-    # time.sleep(10)
+    time.sleep(10)
     p = poloapi.restapi.poloniex()
     objects_list = []
+    bid_asks = []
     loans = p.returnLoanOrders('BTC')['offers']
+    i = 0
     for loan in loans:
+        i += 1
         percent = decimal.Decimal(loan['rate']) * 100
         amount = rainmaker.utils.BitcoinDecimal(loan['amount'])
         objects_list.append(rainmaker.models.LendHistory(amount=amount,
-                                                         rate=percent))
+                                                         interest_ask=percent))
+        if i > 25:
+            bid_asks.append(percent)
     rainmaker.models.LendHistory.objects.bulk_create(objects_list)
-    print objects_list
+    avg_low_bid = sum(bid_asks) / len(bid_asks)
+    rainmaker.models.LendStats.objects.create(avg_interest_ask=avg_low_bid)
