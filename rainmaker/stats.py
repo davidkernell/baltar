@@ -7,10 +7,11 @@ import time
 import decimal
 
 import django.db.transaction
-
+from django.utils import timezone
 import poloapi.restapi
 import rainmaker.models
 import rainmaker.utils
+
 
 def log_loan_rate():
     bid_asks = []
@@ -22,7 +23,7 @@ def log_loan_rate():
         # floor_percent = floor.quantize(utils.BitcoinDecimal('.001'))
         bid_asks.append(percent)
         # segmented_rates_dict[floor_percent] += utils.BitcoinDecimal(loan['rate'])
-    avg_low_bid = sum(bid_asks)/ len(bid_asks)
+    avg_low_bid = sum(bid_asks) / len(bid_asks)
     return avg_low_bid
 
 
@@ -30,7 +31,7 @@ def log_loan_rate():
 def save_lending_stats():
     time.sleep(10)
     last_cycle = rainmaker.models.LendStats.objects.last()
-    if last_cycle and last_cycle.created_at + datetime.timedelta(seconds=8) > datetime.datetime.now():
+    if last_cycle and last_cycle.created_at + datetime.timedelta(seconds=8) > timezone.now():
         print 'too early'
         return
     p = poloapi.restapi.poloniex()
