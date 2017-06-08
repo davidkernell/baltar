@@ -16,6 +16,10 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
+from rainmaker.stats import save_lending_stats as one_time_startup
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 ]
+
+one_time_startup()

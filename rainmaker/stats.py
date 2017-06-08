@@ -1,6 +1,7 @@
 # segmented_rates = range(0, 1001)
 # segmented_rates_percent = [utils.BitcoinDecimal(rate)/1000 for rate in segmented_rates]
 # segmented_rates_dict = dict((rate_band, 0) for rate_band in segmented_rates_percent)
+import datetime
 import time
 
 import decimal
@@ -28,6 +29,10 @@ def log_loan_rate():
 @django.db.transaction.atomic
 def save_lending_stats():
     time.sleep(10)
+    last_cycle = rainmaker.models.LendStats.objects.last()
+    if last_cycle.created_at + datetime.timedelta(seconds=8) > datetime.datetime.now():
+        print 'too early'
+        return
     p = poloapi.restapi.poloniex()
     objects_list = []
     bid_asks = []
