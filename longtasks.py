@@ -19,7 +19,8 @@ from rainmaker.utils import BitcoinDecimal
 
 @atomic
 def save_lending_stats():
-    print 'CALLED DB STATS FUNCTION'
+    num_entries = LendStats.objects.count()
+    print 'CALLED DB STATS FUNCTION', num_entries
     last_cycle = LendStats.objects.last()
     if last_cycle and last_cycle.created_at + datetime.timedelta(seconds=8) > timezone.now():
         print 'too early'
@@ -40,7 +41,8 @@ def save_lending_stats():
     LendHistory.objects.bulk_create(objects_list)
     avg_low_bid = sum(bid_asks) / len(bid_asks)
     LendStats.objects.create(avg_interest_ask=avg_low_bid)
-    print 'cycle completed', LendStats.objects.last().avg_interest_ask
+    num_entries = LendStats.objects.count()
+    print 'cycle completed', LendStats.objects.last().avg_interest_ask, 'entries:', num_entries
     time.sleep(10)
 
 save_lending_stats()
