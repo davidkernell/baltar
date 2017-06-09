@@ -32,7 +32,7 @@ def save_lending_stats():
         if time_since_last < datetime.timedelta(seconds=9):
             logging.warning('Save fired too quickly since last save. Time since last save {}'.format(
                 time_since_last.seconds))
-            return
+            time.sleep(1)
         p = poloapi.restapi.poloniex()
         objects_list = []
         bid_asks = []
