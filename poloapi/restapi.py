@@ -23,6 +23,7 @@ class poloniex:
             self.Secret = bytearray(settings, 'POLO_SECRET', None)
         except TypeError:
             self.APIKey = self.Secret = None
+
     def post_process(self, before):
         after = before
 
@@ -52,7 +53,7 @@ class poloniex:
         elif (command == "returnLoanOrders"):
             ret = urllib2.urlopen(urllib2.Request(
                 POLO_REST_URL + "returnLoanOrders" + '&currency=' + str(
-                    req['currency'])))
+                    req['currency']) + '&limit=' + str(req['limit'])))
             # print json.loads(ret.read())
             return json.loads(ret.read())
         else:
@@ -151,5 +152,6 @@ class poloniex:
     def withdraw(self, currency, amount, address):
         return self.api_query('withdraw', {"currency": currency, "amount": amount, "address": address})
 
-    def returnLoanOrders(self, currency):
-        return self.api_query('returnLoanOrders', {"currency": currency})
+    def returnLoanOrders(self, currency, limit=1000):
+        return self.api_query('returnLoanOrders', {"currency": currency,
+                                                   "limit": str(limit)})
