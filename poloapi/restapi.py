@@ -6,9 +6,9 @@ import urllib
 import urllib2
 
 try:
-    import settings
+    from django.conf import settings
 except ImportError:
-    settings = None
+    import settings
 
 POLO_REST_URL = 'https://poloniex.com/public?command='
 
