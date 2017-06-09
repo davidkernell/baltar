@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'nostradamus',
     'poloapi',
     'rainmaker',
+    'msafescraper',
 
 ]
 

@@ -26,29 +26,3 @@ def log_loan_rate():
     avg_low_bid = sum(bid_asks) / len(bid_asks)
     return avg_low_bid
 
-
-@django.db.transaction.atomic
-def save_lending_stats():
-    print 'CALLED DB STATS FUNCTION'
-    last_cycle = rainmaker.models.LendStats.objects.last()
-    if last_cycle and last_cycle.created_at + datetime.timedelta(seconds=8) > timezone.now():
-        print 'too early'
-        return
-    p = poloapi.restapi.poloniex()
-    objects_list = []
-    bid_asks = []
-    loans = p.returnLoanOrders('BTC')['offers']
-    i = 0
-    for loan in loans:
-        i += 1
-        percent = decimal.Decimal(loan['rate']) * 100
-        amount = rainmaker.utils.BitcoinDecimal(loan['amount'])
-        objects_list.append(rainmaker.models.LendHistory(amount=amount,
-                                                         interest_ask=percent))
-        if i > 25:
-            bid_asks.append(percent)
-    rainmaker.models.LendHistory.objects.bulk_create(objects_list)
-    avg_low_bid = sum(bid_asks) / len(bid_asks)
-    rainmaker.models.LendStats.objects.create(avg_interest_ask=avg_low_bid)
-    print 'cycle completed', rainmaker.models.LendStats.objects.last().avg_interest_ask
-    time.sleep(10)

@@ -1,6 +1,8 @@
 import logging
 import os
 
+import msafescraper.utils
+
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
 
 from django.core.wsgi import get_wsgi_application
@@ -48,6 +50,8 @@ def save_lending_stats():
         avg_low_bid = sum(bid_asks) / len(bid_asks)
         LendStats.objects.create(avg_interest_ask=avg_low_bid)
         logging.info('Save completed at price: {}'.format(avg_low_bid))
+        print 'Save completed at price: {}'.format(avg_low_bid)
         time.sleep(10)
 
-save_lending_stats()
+if __name__ == '__main__':
+    save_lending_stats()
