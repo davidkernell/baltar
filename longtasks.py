@@ -72,6 +72,7 @@ def check_for_safe_dev_post():
     end_str = '}]}]}});\n'
     data_start = page.content.find(start_str) + len(start_str) + 2
     data_end = page.content.find(end_str, data_start) + len(end_str) - 3
+    print page.content[data_start:data_end]
     post_data = json.loads(page.content[data_start:data_end])
     for topic in post_data['topic_list']['topics']:
         if topic['id'] in known_posts:
