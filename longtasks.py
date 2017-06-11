@@ -67,14 +67,12 @@ def check_for_safe_dev_post():
     DEV_ACCT_ID = 205
 
     known_posts = FormPost.objects.values_list('topic_id', flat=True)
-    print 'before'
     page = requests.get(FORM_URL)
-    print 'after'
+    # print 'after'
     start_str = 'ps.store("topic_list_latest"'
     end_str = '}]}]}});\n'
     data_start = page.content.find(start_str) + len(start_str) + 2
     data_end = page.content.find(end_str, data_start) + len(end_str) - 3
-    print page.content
     post_data = json.loads(page.content[data_start:data_end])
     for topic in post_data['topic_list']['topics']:
         if topic['id'] in known_posts:
