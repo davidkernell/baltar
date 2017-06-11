@@ -4,6 +4,7 @@ from django.db import models
 
 # Create your models here.
 
+
 class BitcoinField(models.DecimalField):
     def __init__(self, *args, **kwargs):
         super(BitcoinField, self).__init__(*args, **kwargs)
@@ -21,7 +22,7 @@ class RoundingDecimalField(models.DecimalField):
 
     @django.utils.functional.cached_property
     def validators(self):
-        return super(models.DecimalField, self).vali;;;;;;;dators
+        return super(models.DecimalField, self).valdators
 
     def formfield(self, **kwargs):
         defaults = {
@@ -31,6 +32,7 @@ class RoundingDecimalField(models.DecimalField):
         }
         defaults.update(kwargs)
         return super(RoundingDecimalField, self).formfield(**defaults)
+
 
 class LendHistory(models.Model):
     amount = BitcoinField()

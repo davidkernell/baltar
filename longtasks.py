@@ -1,6 +1,8 @@
 import logging
 import os
 
+import msafescraper.utils
+
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
 
 from django.core.wsgi import get_wsgi_application
@@ -14,7 +16,6 @@ import decimal
 import poloapi.restapi
 from rainmaker.models import LendHistory, LendStats
 from rainmaker.utils import BitcoinDecimal
-
 
 freqency = 10  # seconds
 seconds_in_day = 86400
@@ -30,7 +31,7 @@ def save_lending_stats():
         if time_since_last < datetime.timedelta(seconds=9):
             logging.warning('Save fired too quickly since last save. Time since last save {}'.format(
                 time_since_last.seconds))
-            time.sleep(1)
+            time.sleep(.5)
         p = poloapi.restapi.poloniex()
         objects_list = []
         bid_asks = []
@@ -49,7 +50,10 @@ def save_lending_stats():
         LendStats.objects.create(avg_interest_ask=avg_low_bid)
         logging.info('Save completed at price: {}'.format(avg_low_bid))
         print 'Save completed at price: {}'.format(avg_low_bid)
-        time.sleep(10)
+
 
 if __name__ == '__main__':
     save_lending_stats()
+    msafescraper.utils.check_for_safe_dev_post()
+    time.sleep(10)
+   
