@@ -67,7 +67,9 @@ def check_for_safe_dev_post():
     DEV_ACCT_ID = 205
 
     known_posts = FormPost.objects.values_list('topic_id', flat=True)
+    print 'before'
     page = requests.get(FORM_URL)
+    print 'after'
     start_str = 'ps.store("topic_list_latest"'
     end_str = '}]}]}});\n'
     data_start = page.content.find(start_str) + len(start_str) + 2
