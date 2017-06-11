@@ -53,7 +53,9 @@ class poloniex:
         elif (command == "returnLoanOrders"):
             ret = urllib2.urlopen(urllib2.Request(
                 POLO_REST_URL + "returnLoanOrders" + '&currency=' + str(
-                    req['currency']) + '&limit=' + str(req['limit'])))
+                    req['currency'])
+                # + '&limit=' + str(req['limit'])
+            ))
             # print json.loads(ret.read())
             return json.loads(ret.read())
         else:
@@ -154,4 +156,5 @@ class poloniex:
 
     def returnLoanOrders(self, currency, limit=1000):
         return self.api_query('returnLoanOrders', {"currency": currency,
-                                                   "limit": str(limit)})
+                                                   # "limit": str(limit),
+                              })

@@ -3,7 +3,6 @@ import json
 import requests
 from twilio.rest import Client
 
-from msafescraper.models import FormPost
 
 try:
     from django.conf import settings
