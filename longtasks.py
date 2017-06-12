@@ -1,8 +1,6 @@
 import logging
 import os
 
-import scraper.utils
-
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
 
 from django.core.wsgi import get_wsgi_application
@@ -19,7 +17,7 @@ from twilio.rest import Client
 import poloapi.restapi
 from rainmaker.models import LendHistory, LendStats
 from rainmaker.utils import BitcoinDecimal
-from scraper.models import FormPost
+from scraper.models import MaidSafeFormPost
 
 try:
     from django.conf import settings
@@ -27,8 +25,8 @@ except:
     import settings
 
 freqency = 10  # seconds
-seconds_in_day = 86400
-num_loops = (seconds_in_day / freqency)
+seconds_in_hour = 60 * 60
+num_loops = (seconds_in_hour / freqency)
 
 
 def save_lending_stats():
@@ -66,7 +64,7 @@ def check_for_safe_dev_post():
     FORM_URL = 'http://forum.safedev.org/'
     DEV_ACCT_ID = 205
 
-    known_posts = FormPost.objects.values_list('topic_id', flat=True)
+    known_posts = MaidSafeFormPost.objects.values_list('topic_id', flat=True)
     page = requests.get(FORM_URL)
     # print 'after'
     start_str = 'ps.store("topic_list_latest"'
@@ -79,7 +77,7 @@ def check_for_safe_dev_post():
             continue
         for posters in topic['posters']:
             if posters[u'description'] == u'Original Poster':
-                FormPost.objects.create(topic_id=topic['id'],
+                MaidSafeFormPost.objects.create(topic_id=topic['id'],
                                         dev_blog=True if posters['user_id'] == DEV_ACCT_ID else False)
                 if posters['user_id'] == DEV_ACCT_ID:
                     client = Client(getattr(settings, 'ACCOUNT_SID', None), getattr(settings, 'AUTH_TOKEN', None))

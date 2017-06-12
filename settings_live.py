@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'poloapi',
     'rainmaker',
     'scraper',
+    'coinbaseapi'
 
 ]
 
