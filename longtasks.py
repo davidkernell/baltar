@@ -1,7 +1,7 @@
 import logging
 import os
 
-import msafescraper.utils
+import scraper.utils
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
 
@@ -19,7 +19,7 @@ from twilio.rest import Client
 import poloapi.restapi
 from rainmaker.models import LendHistory, LendStats
 from rainmaker.utils import BitcoinDecimal
-from msafescraper.models import FormPost
+from scraper.models import FormPost
 
 try:
     from django.conf import settings
