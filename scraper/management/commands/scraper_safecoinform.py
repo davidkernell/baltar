@@ -4,7 +4,6 @@ import logging
 
 import datetime
 import django.core.management
-import ratelimit
 from django.utils import timezone
 import requests
 import twilio.rest
