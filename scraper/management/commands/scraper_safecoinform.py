@@ -16,7 +16,6 @@ from django.conf import settings
 
 
 class Command(django.core.management.BaseCommand):
-
     def handle(self, *args, **options):
         task_start_time = timezone.now()
         loop_start_time = None
@@ -31,12 +30,10 @@ class Command(django.core.management.BaseCommand):
         for x in xrange(num_loops):
             if loop_start_time:
                 time_since_last = timezone.now() - loop_start_time
-                if loop_start_time and time_since_last < datetime.timedelta(seconds=freqency):
+                if time_since_last < datetime.timedelta(seconds=freqency):
                     while time_since_last < datetime.timedelta(seconds=freqency):
                         logging.warning('Save fired too quickly since last save. Time since last save {}'.format(
                             time_since_last.seconds))
-                        print 'Save fired too quickly since last save. Time since last save {}'.format(
-                            time_since_last.seconds)
                         time.sleep(.5)
                         time_since_last = timezone.now() - loop_start_time
             loop_start_time = timezone.now()
@@ -80,11 +77,13 @@ class Command(django.core.management.BaseCommand):
                             else:
                                 logging.warning('MaidSafeCoin dynamic trading turned off')
                                 continue
+
             if not dev_post:
-                logging.info('SafeCoin form scraped, no new dev posts')
-            time_since_start = timezone.now() - task_start_time
-            print time_since_start
+                logging.info('SafeCoin form scraped, no new dev posts Time: {}'.format(timezone.now()))
+                print 'SafeCoin form scraped, no new dev posts Time: {}'.format(timezone.now())
             time.sleep(freqency)
-        if time_since_start > datetime.timedelta(hours=1):
-            logging.info('Hourly Task started at {} and ended at {} UTC'.format(task_start_time.isoformat(), timezone.now()))
-            return
+            time_since_start = timezone.now() - task_start_time
+            if time_since_start > datetime.timedelta(hours=1):
+                logging.info(
+                    'SafeCoin Scrape Task started at {} and ended at {} UTC'.format(task_start_time.isoformat(), timezone.now()))
+                return
