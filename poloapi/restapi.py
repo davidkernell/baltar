@@ -158,3 +158,6 @@ class poloniex:
         return self.api_query('returnLoanOrders', {"currency": currency,
                                                    # "limit": str(limit),
                               })
+
+    def marginBuy(self, currencyPair, rate, amount):
+        return self.api_query('marginBuy', {"currencyPair": currencyPair, "rate": rate, "amount": amount})

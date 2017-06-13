@@ -22,5 +22,3 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^rainmaker/', include('rainmaker.urls', namespace='rainmaker')),
 ]
-
-# one_time_startup()

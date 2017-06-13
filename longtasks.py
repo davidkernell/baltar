@@ -16,7 +16,6 @@ import requests
 from twilio.rest import Client
 import poloapi.restapi
 from rainmaker.models import LendHistory, LendStats
-from rainmaker.utils import BitcoinDecimal
 from scraper.models import MaidSafeFormPost
 
 try:
