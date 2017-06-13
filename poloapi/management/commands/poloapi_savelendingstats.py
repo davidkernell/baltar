@@ -12,6 +12,7 @@ from poloapi.restapi import poloniex
 
 class Command(django.core.management.BaseCommand):
     def handle(self, *args, **options):
+        task_start_time = timezone.now()
         freqency = 10  # seconds
         seconds_in_hour = 60 * 60
         num_loops = (seconds_in_hour / freqency)
@@ -42,4 +43,8 @@ class Command(django.core.management.BaseCommand):
             rainmaker.models.LendStats.objects.create(avg_interest_ask=avg_low_bid)
             logging.info('Save completed at price: {}'.format(avg_low_bid))
             print 'Save completed at price: {}'.format(avg_low_bid)
-            return
+            time_since_start = timezone.now() - task_start_time
+            if time_since_start > datetime.timedelta(hours=1):
+                logging.info('Hourly Task started at {} and ended at {} UTC'.format(task_start_time.isoformat(), timezone.now()))
+                return
+            time.sleep(freqency)
