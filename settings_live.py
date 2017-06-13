@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'poloapi',
     'rainmaker',
     'scraper',
-    'coinbaseapi'
+    'coinbaseapi',
+    'dynamic_settings'
 
 ]
 

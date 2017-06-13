@@ -3,6 +3,8 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
+
+import custom_fields
 import rainmaker.models
 
 
@@ -18,7 +20,7 @@ class Migration(migrations.Migration):
             name='LendHistory',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('amount', rainmaker.models.BitcoinField(decimal_places=8, default=0, max_digits=16)),
+                ('amount', custom_fields.BitcoinField(decimal_places=8, default=0, max_digits=16)),
                 ('interest_ask', models.DecimalField(decimal_places=6, max_digits=6)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
             ],

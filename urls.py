@@ -16,7 +16,6 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 
-from rainmaker.taskrunner import jury_rigged_celery as one_time_startup
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),

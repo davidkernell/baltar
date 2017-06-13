@@ -1,5 +1,6 @@
 import django.utils.functional
 from django.db import models
+import django.forms
 
 
 class BitcoinField(models.DecimalField):
