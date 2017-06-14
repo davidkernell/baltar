@@ -16,7 +16,8 @@ class Command(django.core.management.BaseCommand):
         loop_start_time = None
         freqency = 10  # seconds
         seconds_in_hour = 60 * 60
-        num_loops = (seconds_in_hour / freqency)
+        num_loops = 1000000
+        # num_loops = (seconds_in_hour / freqency)
         for x in xrange(num_loops):
             if loop_start_time:
                 time_since_last = timezone.now() - loop_start_time

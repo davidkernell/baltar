@@ -20,7 +20,8 @@ class Command(django.core.management.BaseCommand):
         loop_start_time = None
         freqency = 30  # seconds
         seconds_in_hour = 60 * 60
-        num_loops = (seconds_in_hour / freqency)
+        num_loops = 1000000
+        # num_loops = (seconds_in_hour / freqency)
         FORM_URL = 'http://forum.safedev.org/'
         DEV_ACCT_ID = 205
         dev_post = False
