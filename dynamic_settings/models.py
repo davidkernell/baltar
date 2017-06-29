@@ -18,7 +18,7 @@ class Coin(models.Model):
 
 
 class DynamicTradeSetting(models.Model):
-    coin = models.ForeignKey(Coin)
+    coin = models.OneToOneField(Coin)
     can_trade = models.BooleanField(default=False)
     trade_limit = BitcoinField(default=0)
     can_buy = models.BooleanField(default=False)
