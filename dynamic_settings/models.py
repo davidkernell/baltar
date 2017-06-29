@@ -12,9 +12,9 @@ class Coin(models.Model):
     on_coinbase = models.BooleanField(default=False)
     deleted = models.BooleanField(default=False)
 
-    def save(self, *args, **kwargs):
-        self.ticker = self.ticker.upper()
-        super(Coin, self).save(self, *args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     self.ticker = self.ticker.upper()
+    #     super(Coin, self).save(self, *args, **kwargs)
 
 
 class DynamicTradeSetting(models.Model):
