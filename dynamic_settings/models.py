@@ -13,7 +13,7 @@ class Coin(models.Model):
     deleted = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
-        self.ticker = self.ticker.uppercase()
+        self.ticker = self.ticker.upper()
         super(Coin, self).save(self, *args, **kwargs)
 
 

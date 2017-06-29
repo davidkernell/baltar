@@ -18,7 +18,7 @@ def historical_loan_rates(request):
     fig = Figure()
     ax = fig.add_subplot(111)
     ax.plot_date(over_time, interest_rate, '-')
-    ax.xaxis.set_major_formatter(DateFormatter('%H-%M-%S'))
+    ax.xaxis.set_major_formatter(DateFormatter('%b, %d %H:%M'))
     fig.autofmt_xdate()
     canvas = FigureCanvas(fig)
     response = django.http.HttpResponse(content_type='image/png')
