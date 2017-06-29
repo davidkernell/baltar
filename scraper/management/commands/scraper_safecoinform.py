@@ -16,18 +16,13 @@ from django.conf import settings
 
 class Command(django.core.management.BaseCommand):
     def handle(self, *args, **options):
-        task_start_time = timezone.now()
         loop_start_time = None
         freqency = 30  # seconds
-        seconds_in_hour = 60 * 60
-        num_loops = 1000000
-        # num_loops = (seconds_in_hour / freqency)
         FORM_URL = 'http://forum.safedev.org/'
         DEV_ACCT_ID = 205
         dev_post = False
-
         known_posts = scraper.models.MaidSafeFormPost.objects.values_list('topic_id', flat=True)
-        for x in xrange(num_loops):
+        while 1 > 0:
             if loop_start_time:
                 time_since_last = timezone.now() - loop_start_time
                 if time_since_last < datetime.timedelta(seconds=freqency):
@@ -82,8 +77,9 @@ class Command(django.core.management.BaseCommand):
                 logging.info('SafeCoin form scraped, no new dev posts Time: {}'.format(timezone.now()))
                 print 'SafeCoin form scraped, no new dev posts Time: {}'.format(timezone.now())
             time.sleep(freqency)
-            time_since_start = timezone.now() - task_start_time
-            if time_since_start > datetime.timedelta(hours=1):
-                logging.info(
-                    'SafeCoin Scrape Task started at {} and ended at {} UTC'.format(task_start_time.isoformat(), timezone.now()))
-                return
+        client = twilio.rest.Client(settings.ACCOUNT_SID, settings.AUTH_TOKEN)
+
+        message = client.messages.create(settings.ADMIN_PHONE,
+                                         from_=settings.TWILIO_PHONE,
+                                         body=u"Madesafe scrape ended")
+        print(message.sid)
