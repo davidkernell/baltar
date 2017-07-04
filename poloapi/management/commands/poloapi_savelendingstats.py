@@ -13,21 +13,17 @@ from django.conf import settings
 class Command(django.core.management.BaseCommand):
     def handle(self, *args, **options):
         try:
-            loop_start_time = None
+            loop_start_time = timezone.now()
             freqency = 30  # seconds
-            cycles = freqency / 3600
-            for x in xrange(cycles):
-                if loop_start_time:
-                    time_since_last = timezone.now() - loop_start_time
-                    while time_since_last < datetime.timedelta(seconds=freqency):
-                        logging.warning('Save fired too quickly since last save. Time since last save {}'.format(
-                            time_since_last.seconds))
-                        client = twilio.rest.Client(settings.ACCOUNT_SID, settings.AUTH_TOKEN)
+            while 1 > 0:
+                if loop_start_time != timezone.now():
+                    client = twilio.rest.Client(settings.ACCOUNT_SID, settings.AUTH_TOKEN)
 
-                        message = client.messages.create(settings.ADMIN_PHONE,
-                                                         from_=settings.TWILIO_PHONE,
-                                                         body=u"BTC Lending scrape ended becasue saved too soon")
-                        print(message)
+                    message = client.messages.create(settings.ADMIN_PHONE,
+                                                     from_=settings.TWILIO_PHONE,
+                                                     body=u"BTC Lending stats ended sucessfully")
+                    print(message.sid)
+                    break
                 p = poloniex()
                 objects_list = []
                 bid_asks = []
