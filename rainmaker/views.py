@@ -13,8 +13,7 @@ def historical_loan_rates(request):
     days = request.GET.get('days', 7)
     print days
     data = rainmaker.models.LendStats.objects.filter(created_at__gte=(timezone.now() - datetime.timedelta(days=int(days))))
-    interest_rate = data.values_list('avg_interest_ask', 'created_at')
-    print interest_rate
+    interest_rate = data.values_list('avg_interest_ask', flat=True)
     over_time = data.values_list('created_at', flat=True)
     fig = Figure()
     ax = fig.add_subplot(111)
