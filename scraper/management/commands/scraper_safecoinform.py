@@ -26,12 +26,12 @@ class Command(django.core.management.BaseCommand):
             known_posts = scraper.models.MaidSafeFormPost.objects.values_list('topic_id', flat=True)
             while 1 > 0:
                 if loop_start_time != timezone.now():
-                    client = twilio.rest.Client(settings.ACCOUNT_SID, settings.AUTH_TOKEN)
-
-                    message = client.messages.create(settings.ADMIN_PHONE,
-                                                     from_=settings.TWILIO_PHONE,
-                                                     body=u"Madesafe scrape ended sucessfully")
-                    print(message.sid)
+                    # client = twilio.rest.Client(settings.ACCOUNT_SID, settings.AUTH_TOKEN)
+                    #
+                    # message = client.messages.create(settings.ADMIN_PHONE,
+                    #                                  from_=settings.TWILIO_PHONE,
+                    #                                  body=u"Madesafe scrape ended sucessfully")
+                    # print(message.sid)
                     break
                 page = requests.get(FORM_URL)
                 # dirty as hell

@@ -17,12 +17,12 @@ class Command(django.core.management.BaseCommand):
             freqency = 30  # seconds
             while 1 > 0:
                 if loop_start_time != timezone.now():
-                    client = twilio.rest.Client(settings.ACCOUNT_SID, settings.AUTH_TOKEN)
+                    # client = twilio.rest.Client(settings.ACCOUNT_SID, settings.AUTH_TOKEN)
 
-                    message = client.messages.create(settings.ADMIN_PHONE,
-                                                     from_=settings.TWILIO_PHONE,
-                                                     body=u"BTC Lending stats ended sucessfully")
-                    print(message.sid)
+                    # message = client.messages.create(settings.ADMIN_PHONE,
+                    #                                  from_=settings.TWILIO_PHONE,
+                    #                                  body=u"BTC Lending stats ended sucessfully")
+                    # print(message.sid)
                     break
                 p = poloniex()
                 objects_list = []
