@@ -16,7 +16,7 @@ class Command(django.core.management.BaseCommand):
             loop_start_time = timezone.now()
             freqency = 30  # seconds
             while 1 > 0:
-                if loop_start_time != timezone.now():
+                if loop_start_time + datetime.timedelta(days=1) < timezone.now():
                     # client = twilio.rest.Client(settings.ACCOUNT_SID, settings.AUTH_TOKEN)
 
                     # message = client.messages.create(settings.ADMIN_PHONE,
@@ -25,19 +25,14 @@ class Command(django.core.management.BaseCommand):
                     # print(message.sid)
                     break
                 p = poloniex()
-                objects_list = []
                 bid_asks = []
                 loans = p.returnLoanOrders('BTC')['offers']
                 i = 0
                 for loan in loans:
                     i += 1
                     percent = decimal.Decimal(loan['rate']) * 100
-                    amount = decimal.Decimal(loan['amount'])
-                    objects_list.append(rainmaker.models.LendHistory(amount=amount,
-                                                                     interest_ask=percent))
                     if i > 25:
                         bid_asks.append(percent)
-                rainmaker.models.LendHistory.objects.bulk_create(objects_list)
                 avg_low_bid = sum(bid_asks) / len(bid_asks)
                 rainmaker.models.LendStats.objects.create(avg_interest_ask=avg_low_bid)
                 logging.info('Save completed at price: {}'.format(avg_low_bid))
